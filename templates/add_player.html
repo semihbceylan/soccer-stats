@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Player</title>
+</head>
+<body>
+    <h1>Add a Player</h1>
+    <form action="/add" method="POST" enctype="multipart/form-data">
+        <label for="name">Name:</label><br>
+        <input type="text" id="name" name="name" required><br><br>
+        
+        <label for="surname">Surname:</label><br>
+        <input type="text" id="surname" name="surname" required><br><br>
+        
+        <label for="jersey_number">Jersey Number:</label><br>
+        <input type="number" id="jersey_number" name="jersey_number" required><br><br>
+        
+        <label for="image">Player Image:</label><br>
+        <input type="file" id="image" name="image" required><br><br>
+        
+        <button type="submit">Add Player</button>
+    </form>
+</body>
+</html>
