@@ -1,10 +1,10 @@
-from flask import Flask, render_template, request, redirect, url_for
+from flask import Flask, render_template, request, redirect, url_for, send_from_directory
 import sqlite3
 import os
 
 # Initialize the Flask app
 app = Flask(__name__)
-app.config['UPLOAD_FOLDER'] = 'uploads'
+app.config['UPLOAD_FOLDER'] = 'static/uploads'
 
 # Ensure the uploads directory exists
 os.makedirs(app.config['UPLOAD_FOLDER'], exist_ok=True)
@@ -26,15 +26,16 @@ def init_db():
 
 init_db()
 
+# Helper function to validate file type
+ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif'}
+
+def allowed_file(filename):
+    return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
+
 # Routes
 @app.route('/')
 def index():
-    conn = sqlite3.connect(DATABASE)
-    cursor = conn.cursor()
-    cursor.execute("SELECT * FROM players")
-    players = cursor.fetchall()
-    conn.close()
-    return render_template('index.html', players=players)
+    return redirect(url_for('homepage'))
 
 @app.route('/add', methods=['GET', 'POST'])
 def add_player():
@@ -44,14 +45,12 @@ def add_player():
         jersey_number = request.form['jersey_number']
         image = request.files['image']
 
-        # Save the image
-        if image:
+        if image and allowed_file(image.filename):
             image_path = os.path.join(app.config['UPLOAD_FOLDER'], image.filename)
             image.save(image_path)
         else:
-            image_path = ""
+            return "Invalid file type", 400
 
-        # Add to the database
         conn = sqlite3.connect(DATABASE)
         cursor = conn.cursor()
         cursor.execute("INSERT INTO players (name, surname, jersey_number, image_path) VALUES (?, ?, ?, ?)",
@@ -82,7 +81,6 @@ def update_player(player_id):
         jersey_number = request.form['jersey_number']
         image = request.files['image']
 
-        # Update image only if a new one is uploaded
         if image:
             image_path = os.path.join(app.config['UPLOAD_FOLDER'], image.filename)
             image.save(image_path)
@@ -100,6 +98,31 @@ def update_player(player_id):
     player = cursor.fetchone()
     conn.close()
     return render_template('update_player.html', player=player)
+
+@app.route('/homepage')
+def homepage():
+    return render_template('homepage.html')
+
+@app.route('/team-management')
+def team_management():
+    conn = sqlite3.connect(DATABASE)
+    cursor = conn.cursor()
+    cursor.execute("SELECT * FROM players")
+    players = cursor.fetchall()
+    conn.close()
+    return render_template('team_management/index.html', players=players)
+
+@app.route('/track-match')
+def track_match():
+    return render_template('match_tracking/track_match.html')
+
+@app.route('/match-statistics')
+def match_statistics():
+    return render_template('match_statistics/statistics.html')
+
+@app.route('/uploads/<filename>')
+def uploaded_file(filename):
+    return send_from_directory(app.config['UPLOAD_FOLDER'], filename)
 
 if __name__ == '__main__':
     app.run(debug=True)

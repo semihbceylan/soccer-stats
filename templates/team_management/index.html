@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+
+{% block title %}Manage Team{% endblock %}
+
+{% block content %}
+<h1>Team Roster</h1>
+<a href="{{ url_for('add_player') }}" class="button">Add a Player</a>
+<table class="team-table">
+    <thead>
+        <tr>
+            <th>Image</th>
+            <th>Name</th>
+            <th>Surname</th>
+            <th>Jersey Number</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for player in players %}
+        <tr>
+            <td>
+                <img src="{{ url_for('uploaded_file', filename=player[4].split('/')[-1]) }}" alt="Player Image" width="100">
+            </td>
+            <td>{{ player[1] }}</td>
+            <td>{{ player[2] }}</td>
+            <td>{{ player[3] }}</td>
+            <td>
+                <a href="{{ url_for('update_player', player_id=player[0]) }}" class="action-link">Update</a>
+                <a href="{{ url_for('delete_player', player_id=player[0]) }}" class="action-link" onclick="return confirm('Are you sure?')">Delete</a>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

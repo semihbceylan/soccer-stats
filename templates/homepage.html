@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+
+{% block title %}Homepage{% endblock %}
+
+{% block content %}
+<div class="homepage-container">
+    <div class="homepage-cards">
+        <a href="{{ url_for('team_management') }}" class="card card-link">
+			<h2>Manage Your Teams</h2>
+        </a>
+        <a href="{{ url_for('track_match') }}" class="card card-link">
+			<h2>Track a Match</h2>
+        </a>
+        <a href="{{ url_for('match_statistics') }}" class="card card-link">
+			<h2>Match Statistics</h2>
+        </a>
+    </div>
+</div>
+{% endblock %}
