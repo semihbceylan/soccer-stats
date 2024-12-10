@@ -43,13 +43,14 @@ def add_player():
         name = request.form['name']
         surname = request.form['surname']
         jersey_number = request.form['jersey_number']
-        image = request.files['image']
+        image = request.files.get('image')
 
         if image and allowed_file(image.filename):
             image_path = os.path.join(app.config['UPLOAD_FOLDER'], image.filename)
             image.save(image_path)
+            image_path = image_path.replace('\\', '/')  # Ensure forward slashes
         else:
-            return "Invalid file type", 400
+            image_path = 'uploads/default_player.jpg'  # Consistent path for default image
 
         conn = sqlite3.connect(DATABASE)
         cursor = conn.cursor()
@@ -58,8 +59,9 @@ def add_player():
         conn.commit()
         conn.close()
 
-        return redirect(url_for('index'))
-    return render_template('add_player.html')
+        return redirect(url_for('team_management'))
+
+    return render_template('team_management/add_player.html')
 
 @app.route('/delete/<int:player_id>')
 def delete_player(player_id):
@@ -79,10 +81,10 @@ def update_player(player_id):
         name = request.form['name']
         surname = request.form['surname']
         jersey_number = request.form['jersey_number']
-        image = request.files['image']
+        image = request.files.get('image')
 
         if image:
-            image_path = os.path.join(app.config['UPLOAD_FOLDER'], image.filename)
+            image_path = os.path.join(app.config['UPLOAD_FOLDER'], image.filename).replace('\\', '/')
             image.save(image_path)
             cursor.execute("UPDATE players SET name = ?, surname = ?, jersey_number = ?, image_path = ? WHERE id = ?",
                            (name, surname, jersey_number, image_path, player_id))
@@ -92,12 +94,12 @@ def update_player(player_id):
 
         conn.commit()
         conn.close()
-        return redirect(url_for('index'))
+        return redirect(url_for('team_management'))
 
     cursor.execute("SELECT * FROM players WHERE id = ?", (player_id,))
     player = cursor.fetchone()
     conn.close()
-    return render_template('update_player.html', player=player)
+    return render_template('team_management/update_player.html', player=player)
 
 @app.route('/homepage')
 def homepage():
