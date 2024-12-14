@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Add Player</title>
-	<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
     <h1>Add a Player</h1>
@@ -17,6 +17,13 @@
         
         <label for="jersey_number">Jersey Number:</label><br>
         <input type="number" id="jersey_number" name="jersey_number" required><br><br>
+        
+        <label for="team_id">Team:</label><br>
+        <select id="team_id" name="team_id" required>
+            {% for team in teams %}
+                <option value="{{ team[0] }}">{{ team[1] }}</option>
+            {% endfor %}
+        </select><br><br>
         
         <label for="image">Player Image:</label><br>
         <input type="file" id="image" name="image"><br><br>

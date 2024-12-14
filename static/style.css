@@ -11,7 +11,7 @@ body {
 h1 {
     text-align: center;
     margin-top: 20px;
-    color:white;
+    color:rgb(0, 0, 0);
 }
 
 /* Links */
@@ -236,4 +236,99 @@ table, th, td {
 th, td {
     padding: 10px;
     text-align: center;
+}
+
+/* Main container for all teams */
+.team-container {
+    display: flex;
+    flex-wrap: wrap; /* Allows wrapping to the next row if there isn't enough space */
+    gap: 20px; /* Space between team boxes */
+    justify-content: center; /* Center the content horizontally */
+    padding: 20px;
+}
+
+/* Styling for each team box */
+.team-box {
+    background-color: #ffffff;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    width: 25%; /* Fixed width for team boxes */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    text-align: center;
+    overflow: hidden;
+}
+
+/* Team table inside each team box */
+.team-table {
+    width: 100%;
+    margin-top: 10px;
+    border-collapse: collapse;
+    background-color: #f8f8f8;
+}
+
+.team-table th, .team-table td {
+    padding: 8px;
+    border: 1px solid #ccc;
+    text-align: center;
+}
+
+.team-table th {
+    background-color: #007bff;
+    color: white;
+}
+
+.team-table tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+/* Player image inside the table */
+.team-table img {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%; /* Make the images circular */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Team heading */
+.team-box h2 {
+    font-size: 1.5em;
+    color: #333;
+    margin-bottom: 10px;
+}
+
+/* Buttons and links */
+.action-link {
+    color: #007bff;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.action-link:hover {
+    text-decoration: underline;
+}
+
+/* Table Wrapper for Horizontal Scrolling */
+.table-wrapper {
+    overflow-x: auto; /* Enables horizontal scrolling */
+    margin-top: 10px;
+}
+
+.team-table {
+    width: 100%; /* Ensure table takes full width */
+    min-width: 600px; /* Minimum width to prevent columns from collapsing */
+}
+
+/* Optional: Add a scroll indicator */
+.table-wrapper::-webkit-scrollbar {
+    height: 8px; /* Height of the horizontal scrollbar */
+}
+
+.table-wrapper::-webkit-scrollbar-thumb {
+    background: #007bff; /* Color of the scrollbar */
+    border-radius: 4px;
+}
+
+.table-wrapper::-webkit-scrollbar-thumb:hover {
+    background: #0056b3;
 }
