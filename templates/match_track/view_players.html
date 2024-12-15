@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Match</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+        }
+
+        .teams {
+            display: flex;
+            justify-content: center;
+            gap: 50px;
+            margin-top: 20px;
+        }
+
+        .team-list {
+            border: 1px solid #ddd;
+            padding: 10px;
+            border-radius: 5px;
+            width: 200px;
+        }
+
+        .player {
+            margin: 10px 0;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+
+        .player:hover {
+            background-color: #f0f0f0;
+        }
+
+        .selected {
+            background-color: #4CAF50;
+            color: white;
+            font-weight: bold;
+            border-color: #4CAF50;
+        }
+
+        .removed {
+            display: none; /* Remove player from view */
+        }
+
+        .actions {
+            margin: 20px;
+            display: none;
+        }
+
+        button {
+            margin: 5px;
+            padding: 10px;
+            cursor: pointer;
+        }
+
+        .timer {
+            font-size: 1.5em;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+    </style>
+    <script>
+        let timer = 0;
+        let interval = null;
+        let matchId = '{{ match_id }}';
+        let selectedPlayerId = null;
+        let playerCards = {}; // Object to track player yellow and red cards
+
+        function startTimer() {
+            interval = setInterval(() => {
+                timer = timer + 15;
+                updateTimerDisplay();
+
+                // Handle 45' and 90' time
+                if (timer === 45 * 60 || timer === 90 * 60) {
+                    clearInterval(interval);
+                    if (confirm('Is there an extension?')) {
+                        const extraTime = parseInt(prompt('Enter extra time in minutes:', '5'), 10) || 0;
+                        timer += extraTime * 60;
+                        startTimer();
+                    }
+                }
+            }, 1000);
+        }
+
+        function stopTimer() {
+            clearInterval(interval);
+        }
+
+        function updateTimerDisplay() {
+            const minutes = Math.floor(timer / 60);
+            const seconds = timer % 60;
+            document.getElementById('match-timer').textContent = `${minutes}:${seconds.toString().padStart(2, '0')}`;
+        }
+
+        function selectPlayer(playerId, element) {
+            selectedPlayerId = playerId;
+
+            // Remove 'selected' class from all players
+            document.querySelectorAll('.player').forEach(player => {
+                player.classList.remove('selected');
+            });
+
+            // Add 'selected' class to the clicked player
+            element.classList.add('selected');
+
+            // Show action buttons
+            document.getElementById('actions').style.display = 'block';
+        }
+
+        function logAction(action) {
+            fetch('/log-action', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    player_id: selectedPlayerId,
+                    action: action,
+                    timestamp: timer,
+                    match_id: matchId
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                alert(data.message);
+
+                // Track yellow and red cards
+                trackCards(selectedPlayerId, action);
+            })
+            .catch(err => console.error(err));
+        }
+
+        function trackCards(playerId, action) {
+            if (!playerCards[playerId]) {
+                playerCards[playerId] = { yellow: 0, red: 0 };
+            }
+
+            if (action === 'yellow_cards') {
+                playerCards[playerId].yellow += 1;
+                if (playerCards[playerId].yellow >= 2) {
+                    removePlayer(playerId, 'received 2 yellow cards');
+                }
+            } else if (action === 'red_cards') {
+                playerCards[playerId].red += 1;
+                removePlayer(playerId, 'received a red card');
+            }
+        }
+
+        function removePlayer(playerId, reason) {
+            // Find the player's element and hide it
+            const playerElement = document.querySelector(`[data-player-id='${playerId}']`);
+            if (playerElement) {
+                playerElement.classList.add('removed');
+                alert(`Player ${playerElement.innerText} has been removed: ${reason}`);
+            }
+        }
+    </script>
+</head>
+<body>
+    <h1>{{ team_1.name }} vs {{ team_2.name }}</h1>
+    <div class="timer">
+        Match Timer: <span id="match-timer">0:00</span>
+    </div>
+    <button onclick="startTimer()">Start Timer</button>
+    <button onclick="stopTimer()">Stop Timer</button>
+
+    <div class="teams">
+        <!-- Team 1 Players -->
+        <div class="team-list">
+            <h2>{{ team_1.name }}</h2>
+            {% for player in team_1.players %}
+            <div class="player" data-player-id="{{ player[0] }}" onclick="selectPlayer('{{ player[0] }}', this)">
+                {{ player[1] }} {{ player[2] }} (#{{ player[3] }})
+            </div>
+            {% endfor %}
+        </div>
+
+        <!-- Team 2 Players -->
+        <div class="team-list">
+            <h2>{{ team_2.name }}</h2>
+            {% for player in team_2.players %}
+            <div class="player" data-player-id="{{ player[0] }}" onclick="selectPlayer('{{ player[0] }}', this)">
+                {{ player[1] }} {{ player[2] }} (#{{ player[3] }})
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <div id="actions" class="actions">
+        <h3>Select an Action:</h3>
+        <button onclick="logAction('shots')">Shot</button>
+        <button onclick="logAction('goals')">Goal</button>
+        <button onclick="logAction('passes')">Pass</button>
+        <button onclick="logAction('assists')">Assist</button>
+        <button onclick="logAction('dribbles')">Dribble</button>
+        <button onclick="logAction('offsides')">Offside</button>
+        <button onclick="logAction('fouls')">Foul</button>
+        <button onclick="logAction('yellow_cards')">Yellow Card</button>
+        <button onclick="logAction('red_cards')">Red Card</button>
+        <button onclick="logAction('goals_conceded')">Goals Conceded</button>
+        <button onclick="logAction('penalties')">Penalty</button>
+    </div>
+</body>
+</html>
