@@ -26,9 +26,28 @@ body {
     100% { background-position: 0% 50%; }
 }
 
-/* Text Glows */
+/* Pulsing Text Glow Animation */
+@keyframes textGlowPulse {
+    0%, 100% {
+        text-shadow:
+            0 0 3px #ffffff,
+            0 0 10px #00ffff,
+            0 0 20px #8f00ff,
+            0 0 40px #8f00ff;
+    }
+    50% {
+        text-shadow:
+            0 0 5px #ffffff,
+            0 0 20px #00d4ff,
+            0 0 30px #8f00ff,
+            0 0 60px #00d4ff;
+    }
+}
+
+/* Text Glows - applies to headings, paragraphs, and links so future <a> tags are also covered */
 h1, h2, h3, h4, h5, h6, a, p {
     text-shadow: 0 0 3px #ffffff, 0 0 10px #00ffff, 0 0 20px #8f00ff;
+    animation: textGlowPulse 5s ease-in-out infinite;
 }
 
 /* NAVBAR */
@@ -46,6 +65,7 @@ nav h1 {
     font-weight: 800;
     color: #fff;
     text-shadow: 0 0 3px #ffffff, 0 0 15px #00d4ff, 0 0 30px #8f00ff;
+    animation: textGlowPulse 5s ease-in-out infinite;
 }
 nav ul {
     list-style: none;
@@ -174,6 +194,7 @@ main {
     font-size: 1.5rem;
     margin-bottom: 0.5rem;
     text-shadow: 0 0 3px #ffffff, 0 0 10px #ff7f00, 0 0 20px #ff7f00;
+    animation: textGlowPulse 5s ease-in-out infinite;
 }
 .card:hover h2 {
     text-shadow: 0 0 3px #ffffff, 0 0 15px #8f00ff, 0 0 25px #00d4ff;
@@ -187,6 +208,7 @@ main {
     transition: all 0.4s ease;
     position: relative;
     text-decoration: none;
+    animation: textGlowPulse 5s ease-in-out infinite;
 }
 .card-link:hover {
     transform: scale(1.2);
@@ -209,6 +231,7 @@ footer {
     color: #fff;
     border-top: 3px solid #8f00ff;
     text-shadow: 0 0 3px #ffffff, 0 0 10px #00d4ff, 0 0 20px #8f00ff;
+    animation: textGlowPulse 5s ease-in-out infinite;
 }
 
 /* Scrollbar */
