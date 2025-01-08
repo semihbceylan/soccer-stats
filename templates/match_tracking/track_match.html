@@ -2,7 +2,19 @@
 
 {% block title %}Track a Match{% endblock %}
 
+{% block styles %}
+{{super()}}
+<link rel="stylesheet"  type="text/css" href="{{url_for('static', filename='match_tracking.css')}}">
+{% endblock %}
+
 {% block content %}
-<h1>Track a Match</h1>
-<p>Coming soon: Track your team's performance in real time!</p>
+
+<h1>Match Tracking</h1>
+<p>Team 1: {{ team_1_name }}</p>
+<p>Team 2: {{ team_2_name }}</p>
+<p>Duration: {{ duration }} minutes</p>
+
+<canvas id="soccer-field" width="600" height="400"></canvas>
+<p id="coordinates"></p>
+<script src="soccer.js"></script>
 {% endblock %}

@@ -114,9 +114,33 @@ def team_management():
     conn.close()
     return render_template('team_management/index.html', players=players)
 
-@app.route('/track-match')
+@app.route('/start-match', methods=['GET', 'POST'])
+def start_match():
+    if request.method == 'POST':
+        # Get form data
+        team_1_name = request.form['team_1_name']
+        team_2_name = request.form['team_2_name']
+        duration = request.form['duration']
+        
+        # Redirect to track_match with the form data
+        return redirect(url_for('track_match', 
+                        team_1_name=team_1_name, 
+                        team_2_name=team_2_name, 
+                        duration=duration))
+
+    return render_template('match_tracking/start_match.html')
+
+
+@app.route('/track-match', methods=['POST'])
 def track_match():
-    return render_template('match_tracking/track_match.html')
+    team_1_name = request.form.get('team_1_name')
+    team_2_name = request.form.get('team_2_name')
+    duration = request.form.get('duration')
+    return render_template('match_tracking/track_match.html',
+                           team_1_name=team_1_name,
+                           team_2_name=team_2_name,
+                           duration=duration)
+
 
 @app.route('/match-statistics')
 def match_statistics():
