@@ -1,5 +1,5 @@
 *.db
 uploads/
-_pycache_/
+*_pycache_
 tkinter_app.py
 !uploads/default_player.jpg
