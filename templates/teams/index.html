@@ -1,0 +1,57 @@
+<!-- templates/team_management/index.html -->
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Soccer Stats - Team Management</title>
+    <!-- Link to your external CSS file -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+</head>
+<body>
+    <h1>Team Management</h1>
+
+    <h2>Players</h2>
+    <a href="{{ url_for('add_player') }}">Add Player</a>
+    <table border="1">
+        <tr>
+            <th>ID</th>
+            <th>Full Name</th>
+            <th>Jersey #</th>
+            <th>Image</th>
+            <th>Actions</th>
+        </tr>
+        {% for player in players %}
+        <tr>
+            <td>{{ player[0] }}</td>
+            <td>{{ player[1] }} {{ player[2] }}</td>
+            <td>{{ player[3] }}</td>
+            <td><img src="{{ url_for('uploaded_file', filename=player[4].split('/')[-1]) }}" height="50"></td>
+            <td>
+                <a href="{{ url_for('update_player', player_id=player[0]) }}">Edit</a> |
+                <a href="{{ url_for('delete_player', player_id=player[0]) }}">Delete</a>
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+
+    <h2>Teams</h2>
+    <a href="{{ url_for('add_team') }}">Add Team</a>
+    <table border="1">
+        <tr>
+            <th>ID</th>
+            <th>Team Name</th>
+            <th>Actions</th>
+        </tr>
+        {% for team in teams %}
+        <tr>
+            <td>{{ team[0] }}</td>
+            <td>{{ team[1] }}</td>
+            <td>
+                <a href="{{ url_for('delete_team', team_id=team[0]) }}">Delete</a>
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+
+    <a href="{{ url_for('homepage') }}">Back to Homepage</a>
+</body>
+</html>

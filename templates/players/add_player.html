@@ -1,0 +1,37 @@
+<!-- templates/players/add_player.html -->
+{% extends 'base.html' %}
+
+{% block title %}
+    Add Player
+{% endblock %}
+
+{% block content %}
+<h1>Add Player</h1>
+<form method="POST" enctype="multipart/form-data">
+    <label>Name:</label><br>
+    <input type="text" name="name" required><br>
+
+    <label>Surname:</label><br>
+    <input type="text" name="surname" required><br>
+
+    <label>Jersey Number:</label><br>
+    <input type="number" name="jersey_number" required><br>
+
+    <label>Player Image:</label><br>
+    <input type="file" name="image"><br><br>
+
+    <!-- Select a Team -->
+    <label>Team:</label><br>
+    <select name="team_id">
+        <option value="">--No Team--</option>
+        {% for team in teams %}
+            <option value="{{ team[0] }}">{{ team[1] }}</option>
+        {% endfor %}
+    </select><br><br>
+
+    <input type="submit" value="Save Player">
+</form>
+
+<!-- The "Back" link can point to whatever route lists teams or players -->
+<a href="{{ url_for('team_detail', team_id=request.args.get('team_id')) }}">Back</a>
+{% endblock %}

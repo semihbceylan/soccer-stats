@@ -1,8 +1,68 @@
-{% extends 'base.html' %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Track Match</title>
+</head>
+<body>
+    <h1>Tracking Match #{{ match_id }}</h1>
+    <h2>{{ team_1_name }} vs. {{ team_2_name }}</h2>
+    <p>Started at: {{ start_time }}</p>
+    <p>Duration: {{ duration }} minutes</p>
 
-{% block title %}Track a Match{% endblock %}
+    <!-- Example Timer (optional). You can enhance this with JS countdown if you like. -->
+    <div id="timer">
+        <!-- You could implement a JavaScript timer that counts up to 'duration' minutes -->
+    </div>
 
-{% block content %}
-<h1>Track a Match</h1>
-<p>Coming soon: Track your team's performance in real time!</p>
-{% endblock %}
+    <hr>
+    <h2>Record an Event</h2>
+    <form method="POST">
+        <label>Event Type:</label><br>
+        <select name="event_type">
+            <option value="goal">Goal</option>
+            <option value="foul">Foul</option>
+            <option value="offside">Offside</option>
+            <option value="shot">Shot</option>
+            <option value="substitution">Substitution</option>
+        </select><br><br>
+
+        <label>Team:</label><br>
+        <select name="team_id">
+            {% for team in all_teams %}
+            <option value="{{ team[0] }}">{{ team[1] }}</option>
+            {% endfor %}
+        </select><br><br>
+
+        <label>Player (if applicable):</label><br>
+        <select name="player_id">
+            <option value="">None</option>
+            {% for player in players %}
+            <option value="{{ player[0] }}">{{ player[1] }} {{ player[2] }}</option>
+            {% endfor %}
+        </select><br><br>
+
+        <input type="submit" value="Add Event">
+    </form>
+
+    <hr>
+    <h2>Events</h2>
+    <table border="1">
+        <tr>
+            <th>Event Type</th>
+            <th>Event Time</th>
+            <th>Team</th>
+            <th>Player</th>
+        </tr>
+        {% for event in events %}
+        <tr>
+            <td>{{ event[0] }}</td>
+            <td>{{ event[1] }}</td>
+            <td>{{ event[2] }}</td>
+            <td>{{ event[3] if event[3] else 'N/A' }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+
+    <a href="{{ url_for('match_statistics') }}">Back to Match Statistics</a>
+</body>
+</html>

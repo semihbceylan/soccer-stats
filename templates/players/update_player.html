@@ -1,0 +1,43 @@
+<!-- templates/players/update_player.html -->
+{% extends 'base.html' %}
+
+{% block title %}
+    Update Player
+{% endblock %}
+
+{% block content %}
+<h1>Update Player</h1>
+<form method="POST" enctype="multipart/form-data">
+    <label>Name:</label><br>
+    <input type="text" name="name" value="{{ player[1] }}" required><br>
+
+    <label>Surname:</label><br>
+    <input type="text" name="surname" value="{{ player[2] }}" required><br>
+
+    <label>Jersey Number:</label><br>
+    <input type="number" name="jersey_number" value="{{ player[3] }}" required><br>
+
+    <!-- If you want the option to upload a new image -->
+    <label>Player Image (optional):</label><br>
+    <input type="file" name="image"><br><br>
+
+    <!-- Select a Team -->
+    <label>Team:</label><br>
+    <select name="team_id">
+        <option value="">--No Team--</option>
+        {% for team in teams %}
+            <!-- if player[5] is the stored team_id in your DB columns -->
+            <option 
+                value="{{ team[0] }}"
+                {% if team[0] == player[5] %} selected {% endif %}
+            >
+                {{ team[1] }}
+            </option>
+        {% endfor %}
+    </select><br><br>
+
+    <input type="submit" value="Update Player">
+</form>
+
+<a href="{{ url_for('team_management') }}">Back</a>
+{% endblock %}

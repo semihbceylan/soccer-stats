@@ -1,8 +1,33 @@
-{% extends 'base.html' %}
-
-{% block title %}Match Statistics{% endblock %}
-
-{% block content %}
-<h1>Match Statistics</h1>
-<p>Coming soon: View detailed statistics about your matches!</p>
-{% endblock %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Match Statistics</title>
+</head>
+<body>
+    <h1>All Matches</h1>
+    <table border="1">
+        <tr>
+            <th>Match ID</th>
+            <th>Team 1</th>
+            <th>Team 2</th>
+            <th>Start Time</th>
+            <th>Duration (min)</th>
+            <th>Actions</th>
+        </tr>
+        {% for match in matches %}
+        <tr>
+            <td>{{ match[0] }}</td>
+            <td>{{ match[1] }}</td>
+            <td>{{ match[2] }}</td>
+            <td>{{ match[3] }}</td>
+            <td>{{ match[4] }}</td>
+            <td>
+                <a href="{{ url_for('view_match', match_id=match[0]) }}">View Details</a>
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+    <br>
+    <a href="{{ url_for('homepage') }}">Back to Home</a>
+</body>
+</html>

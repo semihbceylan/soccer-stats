@@ -1,0 +1,11 @@
+#soccer-field {
+	border: 2px solid green;
+	background: url('soccer_field_image.jpg') center/cover no-repeat;
+	width: 600px;
+	height: 400px;
+	position: relative;
+}
+
+*{
+	border:red;
+}

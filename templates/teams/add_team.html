@@ -1,0 +1,18 @@
+<!-- templates/teams/add_team.html -->
+{% extends 'base.html' %}
+
+{% block title %}
+  Add New Team
+{% endblock %}
+
+{% block content %}
+<h1>Add Team</h1>
+<form method="POST">
+  <label>Team Name</label>
+  <input type="text" name="team_name" required>
+  <input type="submit" value="Create">
+</form>
+
+<br>
+<a href="{{ url_for('list_teams') }}">Back to Teams</a>
+{% endblock %}

@@ -1,0 +1,295 @@
+/* =========================
+   General Styles
+   ========================= */
+   body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f8f9fa;
+    color: #333;
+}
+
+	main {
+		min-height: 80vh;
+	}
+
+h1 {
+    text-align: center;
+    margin-top: 20px;
+    color: rgb(0, 0, 0);
+}
+
+/* =========================
+   Links
+   ========================= */
+a {
+    color: #08871f;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+/* =========================
+   Table Styles
+   ========================= */
+table {
+    width: 80%;
+    margin: 20px auto;
+    border-collapse: collapse;
+    background-color: #fff;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+th, td {
+    padding: 12px;
+    text-align: center;
+    border: 1px solid #ddd;
+}
+
+th {
+    background-color: #007bff;
+    color: #fff;
+}
+
+tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+tr:hover {
+    background-color: #f1f1f1;
+}
+
+/* =========================
+   Buttons
+   ========================= */
+button,
+input[type="submit"],
+.button {
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+    margin: 5px;
+    text-decoration: none;
+    display: inline-block;
+    text-align: center;
+}
+
+button:hover,
+input[type="submit"]:hover,
+.button:hover {
+    background-color: #0056b3;
+}
+
+/* =========================
+   Forms
+   ========================= */
+form {
+    width: 50%;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #fff;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    border-radius: 5px;
+}
+
+label {
+    display: block;
+    margin: 10px 0 5px;
+    font-weight: bold;
+}
+
+input,
+select,
+textarea {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+input[type="file"] {
+    padding: 0;
+}
+
+/* =========================
+   Navigation
+   ========================= */
+nav {
+    background-color: #00960f;
+    padding: 10px 0;
+    text-align: center;
+    align-items: center;
+    display: flex;
+    justify-content: space-evenly;
+}
+
+nav ul {
+    display: flex;
+    flex-direction: row;
+    list-style: none;
+}
+
+nav a {
+    color: #fff;
+    margin: 0 15px;
+    font-size: 16px;
+}
+
+nav a:hover {
+    text-decoration: underline;
+}
+
+/* =========================
+   Image Display
+   ========================= */
+img {
+    max-width: 100px;
+    height: auto;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+/* =========================
+   Footer
+   ========================= */
+footer {
+    text-align: center;
+    margin: 20px 0;
+    color: #777;
+    font-size: 14px;
+}
+
+/* =========================
+   Homepage Layout
+   ========================= */
+
+/* Outer container: occupies the screen height,
+   centers content, sets background, etc. */
+.homepage-container {
+    display: flex;             /* so children can be positioned flexibly */
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    background-color: #f8f9fa;
+    padding: 20px;
+    gap: 20px;
+}
+
+/* Flexbox container for the "cards" on the homepage */
+.homepage-cards {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+    width: 80%;
+    margin: 0 auto;
+}
+
+/* Cards */
+.card {
+    background-color: #adadad;
+    color: #fff;
+    text-decoration: none;
+    padding: 20px;
+    text-align: center;
+    font-size: 1.2em;
+    font-weight: bold;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    width: 30%;
+    height: 200px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+/* Card hover effect */
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+}
+
+/* 
+   Inner sections or boxes on the homepage 
+   (previously the second .homepage-container).
+*/
+.homepage-section {
+    flex: 1;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    color: #fff;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.homepage-section:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+.homepage-section h2 {
+    margin-bottom: 15px;
+    color: #2c3e50;
+}
+
+.homepage-section a {
+    margin-top: 10px;
+    padding: 10px 20px;
+    font-size: 16px;
+    text-decoration: none;
+    background-color: #007bff;
+    color: #fff;
+    border-radius: 5px;
+}
+
+.homepage-section a:hover {
+    background-color: #0056b3;
+}
+
+/* =========================
+   Match Tracking Page
+   ========================= */
+
+/* You can reuse the same form styles at the top;
+   or use different rules if you'd like to specifically 
+   style .match-tracking forms differently. */
+form {
+    margin-bottom: 20px; /* Additional spacing if needed for match-tracking forms */
+}
+
+input[type="text"],
+input[type="number"],
+select {
+    margin: 10px 0;
+    padding: 5px;
+}
+
+table {
+    width: 100%;
+    margin-top: 20px;
+    border-collapse: collapse;
+}
+
+table,
+th,
+td {
+    border: 1px solid #ddd;
+}
+
+th,
+td {
+    padding: 10px;
+    text-align: center;
+}

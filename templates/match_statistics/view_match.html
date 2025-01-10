@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>View Match</title>
+</head>
+<body>
+    <h1>Match #{{ match_id }}</h1>
+    <h2>{{ team_1_name }} vs. {{ team_2_name }}</h2>
+    <p>Started at: {{ start_time }}</p>
+    <p>Duration: {{ duration }} minutes</p>
+
+    <h2>Events</h2>
+    <table border="1">
+        <tr>
+            <th>Event Type</th>
+            <th>Event Time</th>
+            <th>Team</th>
+            <th>Player</th>
+        </tr>
+        {% for event in events %}
+        <tr>
+            <td>{{ event[0] }}</td>
+            <td>{{ event[1] }}</td>
+            <td>{{ event[2] }}</td>
+            <td>{{ event[3] if event[3] else 'N/A' }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+
+    <a href="{{ url_for('match_statistics') }}">Back to All Matches</a>
+</body>
+</html>

@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Start Match</title>
+</head>
+<body>
+    <h1>Start a New Match</h1>
+    <form method="POST">
+        <label>Team 1:</label><br>
+        <select name="team_1_id" required>
+            {% for team in teams %}
+            <option value="{{ team[0] }}">{{ team[1] }}</option>
+            {% endfor %}
+        </select><br><br>
+
+        <label>Team 2:</label><br>
+        <select name="team_2_id" required>
+            {% for team in teams %}
+            <option value="{{ team[0] }}">{{ team[1] }}</option>
+            {% endfor %}
+        </select><br><br>
+
+        <label>Duration (minutes):</label><br>
+        <input type="number" name="duration" value="90" required><br><br>
+
+        <input type="submit" value="Start Match">
+    </form>
+    <a href="{{ url_for('homepage') }}">Back to Home</a>
+</body>
+</html>

@@ -1,0 +1,35 @@
+<!-- templates/teams/team_detail.html -->
+{% extends 'base.html' %}
+
+{% block title %}
+  Team: {{ team.team_name }}
+{% endblock %}
+
+{% block content %}
+<h1>Team: {{ team.team_name }}</h1>
+
+<h2>Players in this Team</h2>
+<a href="{{ url_for('add_player', team_id=team.id) }}">Add Player</a>
+<table>
+  <tr>
+    <th>ID</th>
+    <th>Full Name</th>
+    <th>Jersey #</th>
+    <th>Actions</th>
+  </tr>
+  {% for p in players %}
+  <tr>
+    <td>{{ p.id }}</td>
+    <td>{{ p.name }} {{ p.surname }}</td>
+    <td>{{ p.jersey_number }}</td>
+    <td>
+      <a href="{{ url_for('update_player', player_id=p.id) }}">Edit</a> |
+      <a href="{{ url_for('delete_player', player_id=p.id) }}">Delete</a>
+    </td>
+  </tr>
+  {% endfor %}
+</table>
+
+<br>
+<a href="{{ url_for('list_teams') }}">Back to All Teams</a>
+{% endblock %}

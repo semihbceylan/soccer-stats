@@ -1,0 +1,31 @@
+<!-- templates/teams/list_teams.html -->
+{% extends 'base.html' %}
+
+{% block title %}
+  All Teams
+{% endblock %}
+
+{% block content %}
+<h1>All Teams</h1>
+<a href="{{ url_for('add_team') }}">Create New Team</a>
+<table>
+  <tr>
+    <th>ID</th>
+    <th>Team Name</th>
+    <th>Actions</th>
+  </tr>
+  {% for t in teams %}
+  <tr>
+    <td>{{ t.id }}</td>
+    <td>
+      <!-- Link to the Team Detail page -->
+      <a href="{{ url_for('team_detail', team_id=t.id) }}">{{ t.team_name }}</a>
+    </td>
+    <td>
+      <a href="{{ url_for('update_team', team_id=t.id) }}">Edit</a> |
+      <a href="{{ url_for('delete_team', team_id=t.id) }}">Delete</a>
+    </td>
+  </tr>
+  {% endfor %}
+</table>
+{% endblock %}
